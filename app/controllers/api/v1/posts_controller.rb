@@ -28,4 +28,6 @@ class Api::V1::PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :category, :income)
   end
+
+  
 end
