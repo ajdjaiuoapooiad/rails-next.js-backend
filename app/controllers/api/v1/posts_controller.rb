@@ -1,7 +1,13 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    @posts = Post.all 
-    render json: @posts
+    # @posts = Post.all 
+    # render json: @posts
+    if params;
+    @title = params[:title] 
+    @posts = Post.where(title: @title)  # if title is provided, filter posts by title
+    end
+    render json: @posts 
+
   end
 
   def show
