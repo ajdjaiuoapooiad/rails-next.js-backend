@@ -14,20 +14,20 @@ class Api::V1::PostsController < ApplicationController
     end
 
     
-    if params[:category] == nil && params[:income] == nil       # if no title is provided, return all posts;
+    if params[:category] == nil && params[:income] == nil  && params[:search] == nil    # if no title is provided, return all posts;
       @posts = Post.all  # if no title is provided, return all posts
     else
-      if params[:search] == nil  
+      if params[:search]
         @title = params[:search] 
       end
-      if params[:category] != nil 
+      if params[:category] 
         @category = params[:category] 
       end
-      if params[:income] != nil 
+      if params[:income]
         @income = params[:income] 
       end
       # @posts = Post.where( income: @income)
-      @posts = Post.where('title LIKE ?', "%#{params[:search]}%").where(category: @category).where(income: @income)  # if title is provided, filter posts by title
+      @posts = Post.where('title LIKE ?', "%#{params[:search]}%") # if title is provided, filter posts by title
     end
     
     render json: @posts 
