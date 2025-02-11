@@ -16,18 +16,32 @@ class Api::V1::PostsController < ApplicationController
     
     if params[:category] == nil && params[:income] == nil  && params[:search] == nil    # if no title is provided, return all posts;
       @posts = Post.all  # if no title is provided, return all posts
-    else
-      if params[:search]
-        @title = params[:search] 
-      end
-      if params[:category] 
-        @category = params[:category] 
-      end
-      if params[:income]
-        @income = params[:income] 
-      end
-      # @posts = Post.where( income: @income)
-      @posts = Post.where('title LIKE ?', "%#{params[:search]}%") # if title is provided, filter posts by title
+    elsif params[:search] != nil && params[:category] != nil && params[:income] != nil
+      @search = params[:search] 
+      @category = params[:category]
+      @income = params[:income]
+      @posts = Post.where('title LIKE ?', "%#{@search}%").where(category: @category).where(income: @income) # if title is provided, filter posts by title
+    elsif  params[:search] != nil && params[:category] != nil && params[:income] == nil
+      @search = params[:search] 
+      @category = params[:category]
+      @posts = Post.where('title LIKE ?', "%#{@search}%").where(category: @category)
+    elsif params[:search] != nil && params[:category] == nil && params[:income] != nil
+      @search = params[:search] 
+      @income = params[:income]
+      @posts = Post.where('title LIKE ?', "%#{@search}%").where(income: @income)
+    elsif params[:search] == nil && params[:category] != nil && params[:income] != nil
+      @category = params[:category] 
+      @income = params[:income]
+      @posts = Post.where(income: @income).where(category: @category)
+    elsif params[:search] == nil && params[:category] == nil && params[:income] != nil
+      @income = params[:income]
+      @posts = Post.where(income: @income)
+    elsif params[:search] == nil && params[:category] != nil && params[:income] == nil
+      @category = params[:category]
+      @posts = Post.where(category: @category)
+    elsif params[:search] != nil && params[:category] == nil && params[:income] == nil
+      @search = params[:search]
+      @posts = Post.where('title LIKE ?', "%#{@search}%")
     end
     
     render json: @posts 
