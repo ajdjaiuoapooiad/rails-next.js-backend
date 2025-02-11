@@ -2,11 +2,14 @@ class Api::V1::PostsController < ApplicationController
   def index
     # @posts = Post.all 
     # render json: @posts
-    if params[:title] == nil ;
+    if params[:search] == nil  # if no title is provided, return all posts;
       @posts = Post.all  # if no title is provided, return all posts
     else
-      @title = params[:title] 
-      @posts = Post.where(title: @title)  # if title is provided, filter posts by title
+      @title = params[:search] 
+      @category = params[:category] 
+      @income = params[:income] 
+      # @posts = Post.where( income: @income)
+      @posts = Post.where('title LIKE ?', "%#{params[:search]}%" )  # if title is provided, filter posts by title
     end
     
     render json: @posts 
