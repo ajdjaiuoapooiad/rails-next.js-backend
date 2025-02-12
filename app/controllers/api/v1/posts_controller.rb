@@ -44,7 +44,7 @@ class Api::V1::PostsController < ApplicationController
       @posts = Post.where('title LIKE ?', "%#{@search}%")
     end
     
-    render json: @posts 
+    render json: @posts.order(id: "DESC")
 
   end
 
@@ -56,6 +56,7 @@ class Api::V1::PostsController < ApplicationController
     @post = Post.new(post_params)
     if @post.save
       render json: @post, status: :created
+      
     else
       render json: @post.errors, status: :unprocessable_entity
     end
