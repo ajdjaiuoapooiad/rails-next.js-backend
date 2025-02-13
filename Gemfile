@@ -5,13 +5,11 @@ ruby '3.3.7'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.1"
 
-# Use sqlite3 as the database for Active Record
+# Use pg as the database for Active Record
 
 # 開発環境(ローカル)ではSQLite3を使用
-gem 'sqlite3', ">= 2.1", group: :development
+gem "pg", "~> 1.1"
 
-# 本番環境(heroku)ではPostgreSQLを使用
-gem 'pg', group: :production
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
